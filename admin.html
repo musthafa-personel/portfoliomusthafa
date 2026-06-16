@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Admin — Musthafa Portfolio</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Cinzel:wght@600;700&display=swap" rel="stylesheet">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <link rel="stylesheet" href="css/admin.css">
+</head>
+<body class="admin-body">
+
+<!-- ═══════════════════════════════════════════════════════
+     LOGIN GATE
+════════════════════════════════════════════════════════ -->
+<div id="admin-login-gate">
+  <div class="login-card">
+    <span class="login-lock-icon">🔐</span>
+    <div class="login-logo">Musthafa</div>
+    <div class="login-subtitle">Admin Dashboard Access</div>
+    <form id="login-form" novalidate>
+      <div class="admin-form-group">
+        <label class="admin-form-label" for="login-password">Password</label>
+        <input class="admin-form-input" id="login-password" type="password"
+               placeholder="Enter admin password" autocomplete="current-password">
+      </div>
+      <button type="submit" class="admin-btn admin-btn-primary" style="width:100%;justify-content:center;margin-top:8px">
+        Access Dashboard →
+      </button>
+      <div class="login-error" id="login-error">
+        ✕ Incorrect password. Please try again.
+      </div>
+    </form>
+    <a href="index.html" style="display:block;margin-top:24px;font-size:12px;color:var(--text-muted);text-align:center">
+      ← Return to Portfolio
+    </a>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════
+     ADMIN WRAPPER
+════════════════════════════════════════════════════════ -->
+<div class="admin-wrapper">
+
+  <!-- SIDEBAR -->
+  <aside class="admin-sidebar" id="admin-sidebar">
+    <div class="admin-logo">
+      <div class="admin-logo-icon">M</div>
+      <div>
+        <div class="admin-logo-text">Musthafa</div>
+        <span class="admin-logo-sub">Portfolio Admin</span>
+      </div>
+    </div>
+
+    <nav class="admin-nav">
+      <div class="admin-nav-section">
+        <div class="admin-nav-label">Main</div>
+        <button class="admin-nav-item active" data-panel="overview">
+          <span class="nav-icon">◈</span>
+          <span class="nav-text">Overview</span>
+        </button>
+        <button class="admin-nav-item" data-panel="projects">
+          <span class="nav-icon">▣</span>
+          <span class="nav-text">Projects</span>
+        </button>
+        <button class="admin-nav-item" data-panel="categories">
+          <span class="nav-icon">⊞</span>
+          <span class="nav-text">Categories</span>
+        </button>
+      </div>
+
+      <div class="admin-nav-section">
+        <div class="admin-nav-label">Content</div>
+        <button class="admin-nav-item" data-panel="content">
+          <span class="nav-icon">◉</span>
+          <span class="nav-text">About & Info</span>
+        </button>
+        <button class="admin-nav-item" data-panel="analytics">
+          <span class="nav-icon">◎</span>
+          <span class="nav-text">Analytics</span>
+        </button>
+      </div>
+    </nav>
+
+    <div class="admin-sidebar-footer">
+      <a href="index.html" class="admin-back-link">
+        <span>←</span> View Portfolio
+      </a>
+    </div>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <main class="admin-main">
+
+    <!-- Top Bar -->
+    <div class="admin-topbar">
+      <div id="admin-page-title" class="admin-page-title">Overview</div>
+      <div class="admin-topbar-actions">
+        <span class="admin-badge">● Live</span>
+        <button class="admin-btn admin-btn-secondary" id="admin-logout" style="font-size:12px;padding:8px 16px">
+          Sign Out
+        </button>
+      </div>
+    </div>
+
+    <!-- Content Area -->
+    <div class="admin-content">
+
+      <!-- ══ PANEL: OVERVIEW ══════════════════════════════ -->
+      <div class="admin-panel active" id="panel-overview">
+
+        <!-- Stat Cards -->
+        <div class="admin-stat-grid">
+          <div class="admin-stat-card">
+            <div class="admin-stat-icon">▣</div>
+            <div class="admin-stat-value" id="stat-total-projects">0</div>
+            <div class="admin-stat-label">Total Projects</div>
+          </div>
+          <div class="admin-stat-card">
+            <div class="admin-stat-icon">⊞</div>
+            <div class="admin-stat-value" id="stat-total-categories">0</div>
+            <div class="admin-stat-label">Categories</div>
+          </div>
+          <div class="admin-stat-card">
+            <div class="admin-stat-icon">◎</div>
+            <div class="admin-stat-value" id="stat-total-visits">0</div>
+            <div class="admin-stat-label">Portfolio Visits</div>
+          </div>
+          <div class="admin-stat-card">
+            <div class="admin-stat-icon">✦</div>
+            <div class="admin-stat-value" id="stat-total-views">0</div>
+            <div class="admin-stat-label">Project Views</div>
+          </div>
+        </div>
+
+        <!-- Recent Uploads -->
+        <div class="admin-table-wrap">
+          <div class="admin-table-header">
+            <span class="admin-table-title">Recent Projects</span>
+            <button class="admin-btn admin-btn-primary" onclick="Admin.openProjectForm(null)">
+              + Add Project
+            </button>
+          </div>
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Image</th>
+                <th>Title</th>
+                <th>Category</th>
+                <th>Year</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="recent-uploads">
+              <tr><td colspan="6" style="text-align:center;padding:40px;color:var(--text-muted)">Loading...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ══ PANEL: PROJECTS ══════════════════════════════ -->
+      <div class="admin-panel" id="panel-projects">
+
+        <div class="admin-table-wrap">
+          <div class="admin-table-header">
+            <span class="admin-table-title">All Projects</span>
+            <button class="admin-btn admin-btn-primary" id="btn-add-project">
+              + Add New Project
+            </button>
+          </div>
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Cover</th>
+                <th>Title</th>
+                <th>Category</th>
+                <th>Year</th>
+                <th>Client</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="projects-tbody">
+              <tr><td colspan="7" style="text-align:center;padding:40px;color:var(--text-muted)">Loading...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ══ PANEL: CATEGORIES ══════════════════════════ -->
+      <div class="admin-panel" id="panel-categories">
+        <div class="admin-form-card">
+          <div class="admin-form-title">Category Overview</div>
+          <p style="font-size:13px;color:var(--text-muted);margin-bottom:20px">
+            Categories are derived from your projects. Add or change a project's category to manage them here.
+          </p>
+          <div id="categories-list">Loading...</div>
+        </div>
+      </div>
+
+      <!-- ══ PANEL: CONTENT ══════════════════════════════ -->
+      <div class="admin-panel" id="panel-content">
+
+        <!-- About Info -->
+        <div class="admin-form-card">
+          <div class="admin-form-title">About Information</div>
+          <div class="admin-form-row">
+            <div class="admin-form-group">
+              <label class="admin-form-label" for="content-name">Designer Name</label>
+              <input class="admin-form-input" id="content-name" type="text" placeholder="Musthafa">
+            </div>
+            <div class="admin-form-group">
+              <label class="admin-form-label" for="content-title">Professional Title</label>
+              <input class="admin-form-input" id="content-title" type="text" placeholder="Senior Graphic Designer">
+            </div>
+          </div>
+          <div class="admin-form-group">
+            <label class="admin-form-label" for="content-bio">Bio / About Text</label>
+            <textarea class="admin-form-textarea" id="content-bio" placeholder="Your professional bio..."></textarea>
+          </div>
+          <div class="admin-form-group">
+            <label class="admin-form-label" for="content-availability">Availability Status</label>
+            <input class="admin-form-input" id="content-availability" type="text" placeholder="Available for new projects">
+          </div>
+        </div>
+
+        <!-- Social Links -->
+        <div class="admin-form-card">
+          <div class="admin-form-title">Social & Contact Links</div>
+          <div class="admin-form-row">
+            <div class="admin-form-group">
+              <label class="admin-form-label" for="content-whatsapp">WhatsApp Link</label>
+              <input class="admin-form-input" id="content-whatsapp" type="url" placeholder="https://wa.me/...">
+            </div>
+            <div class="admin-form-group">
+              <label class="admin-form-label" for="content-instagram">Instagram Link</label>
+              <input class="admin-form-input" id="content-instagram" type="url" placeholder="https://instagram.com/...">
+            </div>
+          </div>
+          <div class="admin-form-row">
+            <div class="admin-form-group">
+              <label class="admin-form-label" for="content-behance">Behance Link</label>
+              <input class="admin-form-input" id="content-behance" type="url" placeholder="https://behance.net/...">
+            </div>
+            <div class="admin-form-group">
+              <label class="admin-form-label" for="content-linkedin">LinkedIn Link</label>
+              <input class="admin-form-input" id="content-linkedin" type="url" placeholder="https://linkedin.com/in/...">
+            </div>
+          </div>
+        </div>
+
+        <!-- Stats -->
+        <div class="admin-form-card">
+          <div class="admin-form-title">Live Statistics</div>
+          <div class="admin-form-row">
+            <div class="admin-form-group">
+              <label class="admin-form-label" for="content-stat-projects">Projects Completed</label>
+              <input class="admin-form-input" id="content-stat-projects" type="number" placeholder="142">
+            </div>
+            <div class="admin-form-group">
+              <label class="admin-form-label" for="content-stat-clients">Happy Clients</label>
+              <input class="admin-form-input" id="content-stat-clients" type="number" placeholder="89">
+            </div>
+            <div class="admin-form-group">
+              <label class="admin-form-label" for="content-stat-brands">Brands Created</label>
+              <input class="admin-form-input" id="content-stat-brands" type="number" placeholder="45">
+            </div>
+          </div>
+          <div class="admin-form-row">
+            <div class="admin-form-group">
+              <label class="admin-form-label" for="content-stat-exp">Years Experience</label>
+              <input class="admin-form-input" id="content-stat-exp" type="number" placeholder="6">
+            </div>
+            <div class="admin-form-group">
+              <label class="admin-form-label" for="content-stat-designs">Designs Delivered</label>
+              <input class="admin-form-input" id="content-stat-designs" type="number" placeholder="1200">
+            </div>
+          </div>
+        </div>
+
+        <button class="admin-btn admin-btn-primary" id="btn-save-content" style="min-width:180px">
+          ✓ Save All Changes
+        </button>
+      </div>
+
+      <!-- ══ PANEL: ANALYTICS ═════════════════════════════ -->
+      <div class="admin-panel" id="panel-analytics">
+
+        <div class="admin-stat-grid" style="margin-bottom:24px">
+          <div class="admin-stat-card">
+            <div class="admin-stat-icon">◎</div>
+            <div class="admin-stat-value" id="stat-total-visits-2">0</div>
+            <div class="admin-stat-label">Total Visits</div>
+          </div>
+          <div class="admin-stat-card">
+            <div class="admin-stat-icon">✦</div>
+            <div class="admin-stat-value" id="stat-total-views-2">0</div>
+            <div class="admin-stat-label">Project Views</div>
+          </div>
+        </div>
+
+        <div class="analytics-grid">
+          <div class="analytics-chart-card">
+            <div class="analytics-chart-title">Most Viewed Projects</div>
+            <div class="bar-chart" id="analytics-chart">
+              <div style="color:var(--text-muted);font-size:13px;padding:20px 0;">No view data yet. Visit the portfolio to start tracking.</div>
+            </div>
+          </div>
+          <div class="analytics-chart-card">
+            <div class="analytics-chart-title">Projects by Category</div>
+            <div class="bar-chart" id="category-chart">Loading...</div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /admin-content -->
+  </main>
+
+</div><!-- /admin-wrapper -->
+
+<!-- ═══════════════════════════════════════════════════════
+     PROJECT FORM MODAL
+════════════════════════════════════════════════════════ -->
+<div id="project-form-modal" style="
+  display:none; position:fixed; inset:0; z-index:9999;
+  background:rgba(2,2,2,0.95); backdrop-filter:blur(8px);
+  align-items:flex-start; justify-content:center;
+  overflow-y:auto; padding:40px 20px;
+">
+  <div style="
+    background:#0d0d10; border:1px solid rgba(212,175,55,0.15);
+    border-radius:20px; width:min(780px, 100%); padding:36px;
+    position:relative;
+  ">
+    <!-- Close -->
+    <button onclick="Admin.closeProjectForm()" style="
+      position:absolute; top:20px; right:20px;
+      width:36px; height:36px; border-radius:50%;
+      background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1);
+      color:var(--text-secondary); font-size:16px; cursor:pointer;
+      display:flex; align-items:center; justify-content:center;
+      transition:all 0.2s;
+    " aria-label="Close form">✕</button>
+
+    <div class="admin-form-title" id="form-modal-title" style="font-size:18px;margin-bottom:24px">Add New Project</div>
+
+    <!-- Basic Info -->
+    <div style="font-size:11px;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:var(--gold);margin-bottom:12px;">Basic Information</div>
+    <div class="admin-form-row">
+      <div class="admin-form-group">
+        <label class="admin-form-label" for="form-proj-id">Project ID (slug)</label>
+        <input class="admin-form-input" id="form-proj-id" type="text" placeholder="my-project-name">
+      </div>
+      <div class="admin-form-group">
+        <label class="admin-form-label" for="form-proj-title">Project Title *</label>
+        <input class="admin-form-input" id="form-proj-title" type="text" placeholder="Aura Luxury Cosmetics">
+      </div>
+    </div>
+    <div class="admin-form-row">
+      <div class="admin-form-group">
+        <label class="admin-form-label" for="form-proj-category">Category *</label>
+        <select class="admin-form-input admin-form-select" id="form-proj-category">
+          <option value="">Select category...</option>
+          <option>Logo Design</option>
+          <option>Branding</option>
+          <option>Poster Design</option>
+          <option>Social Media Designs</option>
+          <option>Illustration</option>
+          <option>Packaging Design</option>
+          <option>Video Editing</option>
+          <option>Motion Graphics</option>
+        </select>
+      </div>
+      <div class="admin-form-group">
+        <label class="admin-form-label" for="form-proj-year">Year</label>
+        <input class="admin-form-input" id="form-proj-year" type="number" placeholder="2026">
+      </div>
+    </div>
+    <div class="admin-form-row">
+      <div class="admin-form-group">
+        <label class="admin-form-label" for="form-proj-client">Client Name</label>
+        <input class="admin-form-input" id="form-proj-client" type="text" placeholder="Acme Corp">
+      </div>
+      <div class="admin-form-group">
+        <label class="admin-form-label" for="form-proj-style">Design Style</label>
+        <input class="admin-form-input" id="form-proj-style" type="text" placeholder="Minimalist / Luxury">
+      </div>
+    </div>
+    <div class="admin-form-group">
+      <label class="admin-form-label" for="form-proj-desc">Project Description</label>
+      <textarea class="admin-form-textarea" id="form-proj-desc" placeholder="Brief description of the project..."></textarea>
+    </div>
+    <div class="admin-form-group">
+      <label class="admin-form-label" for="form-proj-tags">Tags (comma separated)</label>
+      <input class="admin-form-input" id="form-proj-tags" type="text" placeholder="Brand Strategy, Packaging, Visual Identity">
+    </div>
+
+    <!-- Images -->
+    <div style="font-size:11px;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:var(--gold);margin:20px 0 12px;">Images (URLs)</div>
+    <div class="admin-form-group">
+      <label class="admin-form-label" for="form-proj-hero">Hero Image URL *</label>
+      <input class="admin-form-input" id="form-proj-hero" type="url" placeholder="https://images.unsplash.com/...">
+    </div>
+    <div class="admin-form-row">
+      <div class="admin-form-group">
+        <label class="admin-form-label" for="form-proj-before">Before Image URL</label>
+        <input class="admin-form-input" id="form-proj-before" type="url" placeholder="Before / sketch image...">
+      </div>
+      <div class="admin-form-group">
+        <label class="admin-form-label" for="form-proj-after">After Image URL</label>
+        <input class="admin-form-input" id="form-proj-after" type="url" placeholder="Final / polished image...">
+      </div>
+    </div>
+    <div class="admin-form-row">
+      <div class="admin-form-group">
+        <label class="admin-form-label" for="form-proj-mockup1">Mockup 1 URL</label>
+        <input class="admin-form-input" id="form-proj-mockup1" type="url" placeholder="https://...">
+      </div>
+      <div class="admin-form-group">
+        <label class="admin-form-label" for="form-proj-mockup2">Mockup 2 URL</label>
+        <input class="admin-form-input" id="form-proj-mockup2" type="url" placeholder="https://...">
+      </div>
+    </div>
+
+    <!-- Colors -->
+    <div style="font-size:11px;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:var(--gold);margin:20px 0 12px;">Design Details</div>
+    <div class="admin-form-group">
+      <label class="admin-form-label" for="form-proj-colors">Color Palette (hex codes, comma separated)</label>
+      <input class="admin-form-input" id="form-proj-colors" type="text" placeholder="#050505, #d4af37, #f5f5f7">
+    </div>
+
+    <!-- Story -->
+    <div style="font-size:11px;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:var(--gold);margin:20px 0 12px;">Project Story</div>
+    <div class="admin-form-group">
+      <label class="admin-form-label" for="form-proj-story-concept">Concept</label>
+      <textarea class="admin-form-textarea" id="form-proj-story-concept" placeholder="The creative concept behind this project..."></textarea>
+    </div>
+    <div class="admin-form-group">
+      <label class="admin-form-label" for="form-proj-story-challenge">Challenge</label>
+      <textarea class="admin-form-textarea" id="form-proj-story-challenge" placeholder="What challenges did you face?"></textarea>
+    </div>
+    <div class="admin-form-group">
+      <label class="admin-form-label" for="form-proj-story-solution">Solution</label>
+      <textarea class="admin-form-textarea" id="form-proj-story-solution" placeholder="How did you solve them?"></textarea>
+    </div>
+
+    <!-- Testimonial -->
+    <div style="font-size:11px;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:var(--gold);margin:20px 0 12px;">Client Testimonial</div>
+    <div class="admin-form-group">
+      <label class="admin-form-label" for="form-proj-test-text">Testimonial Text</label>
+      <textarea class="admin-form-textarea" id="form-proj-test-text" placeholder="What the client said..."></textarea>
+    </div>
+    <div class="admin-form-row">
+      <div class="admin-form-group">
+        <label class="admin-form-label" for="form-proj-test-author">Client Name</label>
+        <input class="admin-form-input" id="form-proj-test-author" type="text" placeholder="John Smith">
+      </div>
+      <div class="admin-form-group">
+        <label class="admin-form-label" for="form-proj-test-role">Client Role</label>
+        <input class="admin-form-input" id="form-proj-test-role" type="text" placeholder="CEO, Acme Corp">
+      </div>
+    </div>
+    <div class="admin-form-group">
+      <label class="admin-form-label" for="form-proj-test-rating">Rating (1–5)</label>
+      <input class="admin-form-input" id="form-proj-test-rating" type="number" min="1" max="5" value="5">
+    </div>
+
+    <!-- Actions -->
+    <div style="display:flex;gap:12px;justify-content:flex-end;margin-top:24px;padding-top:20px;border-top:1px solid rgba(255,255,255,0.05)">
+      <button class="admin-btn admin-btn-secondary" onclick="Admin.closeProjectForm()">Cancel</button>
+      <button class="admin-btn admin-btn-primary" onclick="Admin.saveProject()">
+        ✓ Save Project
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Scripts -->
+<script src="js/data.js"></script>
+<script src="js/admin.js"></script>
+
+<script>
+  // Sync analytics stats panel with overview values
+  document.addEventListener('DOMContentLoaded', () => {
+    const syncVal = (fromId, toId) => {
+      const from = document.getElementById(fromId);
+      const to   = document.getElementById(toId);
+      if (from && to) to.textContent = from.textContent;
+    };
+    setTimeout(() => {
+      syncVal('stat-total-visits', 'stat-total-visits-2');
+      syncVal('stat-total-views',  'stat-total-views-2');
+    }, 500);
+  });
+</script>
+
+</body>
+</html>
